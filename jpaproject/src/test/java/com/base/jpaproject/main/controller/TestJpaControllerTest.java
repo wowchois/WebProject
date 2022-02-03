@@ -1,5 +1,7 @@
 package com.base.jpaproject.main.controller;
 
+import com.base.jpaproject.main.entity.Todo;
+import com.base.jpaproject.main.repository.TodoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,6 +19,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TestJpaControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private TodoRepository todoRepository;
+
+    @Test
+    void testEntity() throws Exception{
+        todoRepository.count();
+    }
 
     @Test
     void testGet() throws Exception{
