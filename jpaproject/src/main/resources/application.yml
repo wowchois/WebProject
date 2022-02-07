@@ -10,6 +10,7 @@ spring:
 logging:
   level:
     org.springframwork.web : debug
-    sql : debug
+    org.hibernate.SQL : off #jpa log off
+    sql : off
     jdbc : off
     jdbc.sqlonly : debug
