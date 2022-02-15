@@ -1,4 +1,9 @@
-# jpaproject
+# WebProject
+### Jpa, Vue 공부를 위한 프로젝트  
+
+
+
+## jpaproject
 
 jpa 공부하는 프로젝트
 
@@ -12,7 +17,7 @@ jpa 공부하는 프로젝트
 
 ----------------
 
-# vue study
+## vue study
 
-vue.js 공부
+vue.js 공부하는 프로젝트
 
