@@ -1,16 +1,23 @@
 package com.base.jpaproject.main.service;
 
+import com.base.jpaproject.main.dto.TodoUpdateDto;
 import com.base.jpaproject.main.entity.Todo;
 import com.base.jpaproject.main.repository.TodoRepository;
 import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TodoService {
 
     private final TodoRepository todoRepository;
@@ -31,8 +38,86 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
+    //select one
     public Optional<Todo> getTodo(Long id){
         return todoRepository.findById(id);
+    }
+
+    public List<Todo> getCompTodo(Boolean flag){
+        return todoRepository.findByCompleteFlag(flag);
+    }
+
+    public List<Todo> getCompNameTodo(Boolean flag,String item){
+        return todoRepository.findByCompleteFlagAndItem(flag,item);
+    }
+
+    public List<Todo> getNameLike(String item,String likeFlag){
+        List<Todo> list = new ArrayList<>();
+        if("0".equals(likeFlag)){ //포함
+            list = todoRepository.findByItemContains(item);
+        }else if("1".equals(likeFlag)){ //시작
+            list = todoRepository.findByItemStartsWith(item);
+        }else if("2".equals(likeFlag)){ //끝
+            list = todoRepository.findByItemEndsWith(item);
+        }
+
+        return list;
+    }
+
+    //update one
+    public int updateTodo(Long id,TodoUpdateDto data){
+        Optional<Todo> todo = this.todoRepository.findById(id);
+        Todo t = todo.get();
+        t.update(data.getItem(), data.getCompleteFlag());
+        /*
+        Optional<Todo> todo = this.todoRepository.findById(id); //this.getTodo(id);
+
+        log.info("##" + id);
+        log.info("##{}",data);
+        log.info("##todo {}",todo);
+
+
+        if(todo.isPresent()){
+            Todo t = todo.get();
+            log.info("## {}",todo.get());
+
+            t = t.builder()
+                .item(data.getItem())
+                .flag(data.getCompleteFlag())
+                .build();
+            todoRepository.save(t);
+        }
+         */
+        /*
+        todo.ifPresent(t -> {
+            t.builder()
+                    .item(data.getItem() != null ? data.getItem() : t.getItem())
+                    .flag(data.getCompleteFlag() != null ? data.getCompleteFlag() : t.getCompleteFlag())
+                    .build();
+            todoRepository.save(t);
+        });
+        */
+        /*
+        todo.ifPresent(t -> {
+            t = t.builder()
+                    .item(data.getItem() != null ? data.getItem() : t.getItem())
+                    .flag(data.getCompleteFlag() != null ? data.getCompleteFlag() : t.getCompleteFlag())
+                    .build();
+            this.todoRepository.save(t);
+        });
+         */
+
+        return 0;
+    }
+
+    public int deleteTodo(Long id){
+        Optional<Todo> todo = this.todoRepository.findById(id); //this.getTodo(id);
+
+        if(todo.isPresent()){
+            this.todoRepository.delete(todo.get());
+            return 1;
+        }
+        return 0;
     }
 
 }

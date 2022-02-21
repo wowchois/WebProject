@@ -1,14 +1,12 @@
 package com.base.jpaproject.main.controller;
 
+import com.base.jpaproject.main.dto.TodoUpdateDto;
 import com.base.jpaproject.main.entity.Todo;
 import com.base.jpaproject.main.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +42,50 @@ public class TodoController {
         }else{
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    //complete flag 조회
+    @GetMapping("/getComplete")
+    public ResponseEntity<?> GetCompList(Boolean flag){
+        List<Todo> todo = todoService.getCompTodo(flag);
+
+        return ResponseEntity.ok(todo);
+    }
+
+    //item,complete flag 조회
+    @GetMapping("/getCompName")
+    public ResponseEntity<?> GetCompNameList(Boolean flag,String item){
+        List<Todo> todo = todoService.getCompNameTodo(flag,item);
+
+        return ResponseEntity.ok(todo);
+    }
+
+    @GetMapping("/getNameLike")
+    public ResponseEntity<?> GetNameLike(String item,String likeFlag){
+        List<Todo> todo = todoService.getNameLike(item,likeFlag);
+
+        return ResponseEntity.ok(todo);
+    }
+
+    //1개 수정
+    @PatchMapping("/updateOne")
+    public ResponseEntity<?> UpdateTodo(Long id, TodoUpdateDto dto){
+        int todo = todoService.updateTodo(id,dto);
+
+        return ResponseEntity.ok(todo);
+//        if(todo.isPresent()){
+//            return ResponseEntity.ok(todo);
+//        }else{
+//            return ResponseEntity.badRequest().build();
+//        }
+    }
+
+    //1개 삭제
+    @DeleteMapping("/delOne")
+    public ResponseEntity<?> DeleteTodo(Long id){
+        int todo = todoService.deleteTodo(id);
+
+        return ResponseEntity.ok(todo);
     }
 
 }
