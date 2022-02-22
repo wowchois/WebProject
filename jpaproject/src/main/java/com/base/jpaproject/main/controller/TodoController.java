@@ -69,15 +69,14 @@ public class TodoController {
 
     //1개 수정
     @PatchMapping("/updateOne")
-    public ResponseEntity<?> UpdateTodo(Long id, TodoUpdateDto dto){
-        int todo = todoService.updateTodo(id,dto);
+    public ResponseEntity<?> UpdateTodo(Long id, @RequestBody TodoUpdateDto dto){
+        int result = todoService.updateTodo(id,dto);
 
-        return ResponseEntity.ok(todo);
-//        if(todo.isPresent()){
-//            return ResponseEntity.ok(todo);
-//        }else{
-//            return ResponseEntity.badRequest().build();
-//        }
+        if(result > 0){
+            return ResponseEntity.ok(result);
+        }else{
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     //1개 삭제

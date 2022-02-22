@@ -66,48 +66,18 @@ public class TodoService {
 
     //update one
     public int updateTodo(Long id,TodoUpdateDto data){
-        Optional<Todo> todo = this.todoRepository.findById(id);
-        Todo t = todo.get();
-        t.update(data.getItem(), data.getCompleteFlag());
-        /*
-        Optional<Todo> todo = this.todoRepository.findById(id); //this.getTodo(id);
+        Optional<Todo> todo = todoRepository.findById(id);
 
-        log.info("##" + id);
-        log.info("##{}",data);
-        log.info("##todo {}",todo);
-
-
-        if(todo.isPresent()){
-            Todo t = todo.get();
-            log.info("## {}",todo.get());
-
-            t = t.builder()
-                .item(data.getItem())
-                .flag(data.getCompleteFlag())
-                .build();
-            todoRepository.save(t);
-        }
-         */
-        /*
-        todo.ifPresent(t -> {
-            t.builder()
-                    .item(data.getItem() != null ? data.getItem() : t.getItem())
-                    .flag(data.getCompleteFlag() != null ? data.getCompleteFlag() : t.getCompleteFlag())
-                    .build();
-            todoRepository.save(t);
-        });
-        */
-        /*
         todo.ifPresent(t -> {
             t = t.builder()
+                    .id(id)
                     .item(data.getItem() != null ? data.getItem() : t.getItem())
                     .flag(data.getCompleteFlag() != null ? data.getCompleteFlag() : t.getCompleteFlag())
                     .build();
             this.todoRepository.save(t);
         });
-         */
 
-        return 0;
+        return todo.isPresent() ? 1 : 0;
     }
 
     public int deleteTodo(Long id){

@@ -1,10 +1,8 @@
 package com.base.jpaproject.main.entity;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +11,7 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-@DynamicUpdate
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Todo {
 
     @Id
@@ -26,14 +23,10 @@ public class Todo {
     private Boolean completeFlag;
 
     @Builder
-    private Todo(String item,Boolean flag){
+    private Todo(Long id,String item,Boolean flag){
+        this.id = id;
         this.item = item;
         this.completeFlag = flag != null ? flag : false;
-    }
-
-    public void update(String item, Boolean flag){
-        this.item = item;
-        this.completeFlag = flag;
     }
 
 }
