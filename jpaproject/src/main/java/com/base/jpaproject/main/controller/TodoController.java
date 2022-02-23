@@ -60,9 +60,26 @@ public class TodoController {
         return ResponseEntity.ok(todo);
     }
 
+    //item like 조건 조회
     @GetMapping("/getNameLike")
     public ResponseEntity<?> GetNameLike(String item,String likeFlag){
         List<Todo> todo = todoService.getNameLike(item,likeFlag);
+
+        return ResponseEntity.ok(todo);
+    }
+
+    //id 비교 조건 조회
+    @GetMapping("/getIdCompare/{compare}")
+    public ResponseEntity<?> GetIdCompare(
+            @PathVariable("compare") String compare
+            ,Long id
+            ,String sort //asc,desc
+    ){
+        List<Todo> todo = todoService.getIdCompare(
+                compare
+                ,id
+                ,Optional.ofNullable(sort).orElse("asc")
+        );
 
         return ResponseEntity.ok(todo);
     }

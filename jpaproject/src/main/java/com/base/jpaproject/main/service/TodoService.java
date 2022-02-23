@@ -3,12 +3,11 @@ package com.base.jpaproject.main.service;
 import com.base.jpaproject.main.dto.TodoUpdateDto;
 import com.base.jpaproject.main.entity.Todo;
 import com.base.jpaproject.main.repository.TodoRepository;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +58,24 @@ public class TodoService {
             list = todoRepository.findByItemStartsWith(item);
         }else if("2".equals(likeFlag)){ //끝
             list = todoRepository.findByItemEndsWith(item);
+        }
+
+        return list;
+    }
+
+    public List<Todo> getIdCompare(String flag, Long id, String sortFlag){
+        List<Todo> list = new ArrayList<>();
+        Sort sort = Sort.by("desc".equals(sortFlag) ? Sort.Direction.DESC : Sort.Direction.ASC
+                ,"id");
+
+        if("greater".equals(flag)){ // >
+            list = todoRepository.findByIdGreaterThan(id,sort);
+        }else if("greaterEqual".equals(flag)){ // >=
+            list = todoRepository.findByIdGreaterThanEqual(id,sort);
+        }else if("less".equals(flag)){ // <
+            list = todoRepository.findByIdLessThan(id,sort);
+        }else if("lessEqual".equals(flag)){ // <=
+            list = todoRepository.findByIdLessThanEqual(id,sort);
         }
 
         return list;
