@@ -14,14 +14,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests()
+        httpSecurity
+                .csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .authorizeRequests()
                 .antMatchers("/","/login/**","/css/**","/js/**","/images/**").permitAll()
                 .antMatchers("/api/").hasRole(Role.SUPER.name())
                 .anyRequest().authenticated()
                 .and()
-                .logout().logoutSuccessUrl("/logout")
+                .logout().logoutSuccessUrl("/")
                 .and()
                 .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorization")
+                .and()
                 .userInfoEndpoint().userService(customOAuth2UserService)
                 ;
     }
