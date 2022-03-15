@@ -5,7 +5,7 @@
 
 ## jpaproject
 
-jpa 공부하는 프로젝트
+JPA,OAuth 공부하는 프로젝트
 
 
 #### 개발 환경
