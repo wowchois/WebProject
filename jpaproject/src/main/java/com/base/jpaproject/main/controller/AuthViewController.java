@@ -51,6 +51,11 @@ public class AuthViewController {
         return "join";
     }
 
+    @GetMapping("/user")
+    public String userAuth(){
+        return "user";
+    }
+
     @GetMapping("/super")
     public String superAuth(){
         return "super";

@@ -29,11 +29,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //.antMatchers("/swagger-ui/**").denyAll()
                 //.antMatchers("/","/login","/css/**","/js/**","/images/**").permitAll()
+                .antMatchers("/user/**").authenticated() //인증만되면 접근가능
                 .antMatchers("/super/**").hasRole(Role.SUPER.name())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/loginform") //403권한제한 경우 로그인페이지로 이동
+                .usernameParameter("username") //view단의 username과 loadUserByUsername username이 일치해야 해서 선언!
+                .loginProcessingUrl("/login") // /login 주소로 security login 동작 (/login 컨트롤러가 필요없음)
+                .defaultSuccessUrl("/")
                 //.anyRequest().authenticated()
                 /*
                 .and()
