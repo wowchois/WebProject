@@ -3,6 +3,7 @@ package com.base.jpaproject.auth;
 import com.base.jpaproject.main.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -10,6 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RequiredArgsConstructor
 @EnableWebSecurity //spring security 활성화
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+//securedEnabled : @Secured 활성화(메서드에 어노테이션으로 시큐리티 활성화 시킨다.)
+//prePostEnabled : @PreAuthorize 활성화(메서드 실행 직전에 시큐리티 활성화 시킨다.)
+//                  @PostAuthorize 활성화(메서드 실행 후에 시큐리티 활성화 시킨다.)
+//보통 @secured 많이 쓴다.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -30,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/swagger-ui/**").denyAll()
                 //.antMatchers("/","/login","/css/**","/js/**","/images/**").permitAll()
                 .antMatchers("/user/**").authenticated() //인증만되면 접근가능
-                .antMatchers("/super/**").hasRole(Role.SUPER.name())
+                .antMatchers("/manager/**").access("hasRole('MANAGER') or hasRole('ADMIN')")
+                .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

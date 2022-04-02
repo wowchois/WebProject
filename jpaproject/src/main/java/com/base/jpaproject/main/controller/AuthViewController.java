@@ -7,6 +7,7 @@ import com.base.jpaproject.main.repository.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,12 +53,23 @@ public class AuthViewController {
     }
 
     @GetMapping("/user")
-    public String userAuth(){
+    public @ResponseBody  String userAuth(){
         return "user";
     }
 
-    @GetMapping("/super")
-    public String superAuth(){
-        return "super";
+    @GetMapping("/manager")
+    public @ResponseBody  String managerAuth(){
+        return "manager";
+    }
+
+    @GetMapping("/admin")
+    public @ResponseBody  String adminAuth(){
+        return "admin";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/userinfo")
+    public @ResponseBody  String userInfo(){
+        return "user info";
     }
 }
