@@ -15,6 +15,11 @@ JPA,OAuth 공부하는 프로젝트
 - MySQL
 - Mustache
 
+#### 구현 중
+- security - OAuth
+- JPA - Todo/User CRUD
+- excel - 대용량 parsing
+
 
 ----------------
 
