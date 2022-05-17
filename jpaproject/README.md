@@ -1,11 +1,13 @@
-## OAuth 로그인
+## 구현 내용 정리
 
-### Gradle
+### OAuth 로그인
+
+#### Gradle
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-mustache'
 
-### 1. mustache로 로그인 구현
+#### 1. mustache로 로그인 구현
 
 - 테스트로 controller 구현
 
