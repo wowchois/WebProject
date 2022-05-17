@@ -1,5 +1,7 @@
 package com.base.jpaproject.main.controller;
 
+import com.base.jpaproject.main.service.ExcelService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +15,18 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class ExcelController {
+
+    private final ExcelService excelService;
 
     @PostMapping(value = "/excel/parse", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> excelParseTest(@RequestPart("file") MultipartFile file){
         Map<String,Object> result = new HashMap<>();
 
         log.info("file name : {}", file.getOriginalFilename());
+
+        excelService.readToList(file);
 
         return ResponseEntity.ok(result);
     }
