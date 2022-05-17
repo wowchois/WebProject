@@ -21,6 +21,13 @@ JPA,OAuth 공부하는 프로젝트
 - excel - 대용량 parsing
 
 
+#### local swagger 실행
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+
+
 ----------------
 
 ## vue study
