@@ -19,7 +19,7 @@ JPA,OAuth 공부하는 프로젝트
 - security - OAuth
 - JPA - Todo/User CRUD
 - excel - 대용량 parsing
-- feign - restTemplate 간편 api호출 [로그](#feign적용.md)
+- feign - restTemplate 간편 api호출 [로그](#feign적용)
 
 
 #### local swagger 실행
