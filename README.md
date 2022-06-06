@@ -16,9 +16,10 @@ JPA,OAuth 공부하는 프로젝트
 - Mustache
 
 #### 구현 중
-- security - OAuth
+- security - OAuth [로그](./oauth정리.md)
 - JPA - Todo/User CRUD
 - excel - 대용량 parsing
+- feign - restTemplate 간편 api호출 [로그](./feign적용.md)
 
 
 #### local swagger 실행
