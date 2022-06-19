@@ -56,3 +56,9 @@ public interface TestClient {
 
 ```
 
+
+#### Feign log level
+NONE < BASIC < HEADERS < FULL   
+FULL 경우 모든 Feign로그가 출력된다. (log4j 레벨이 debug일때만 출력)  
+
+
