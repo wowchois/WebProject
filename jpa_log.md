@@ -20,7 +20,7 @@ jpa 에서는 insert into select 지원안함 -> querydsl로 해결해야함.
 > error message : Failed to execute SQL script statement #1 of URL
 
 원인 : insert into table ('column1') -> 컬럼명을 ''으로 사용   
-(컬럼명은 ` 으로 사용해야한다.)
+해결 : 컬럼명은 ` 으로 사용해야한다.  
 
 - data.sql을 읽는데, jpa의 hibernate보다 먼저 sql을 실행해서 아래코드 정의해야 hibernate를 먼저 실행하고 db를 실행한다.   
 (hibernate 초기화 전에 sql읽어서 발생)
