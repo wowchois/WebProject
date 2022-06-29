@@ -17,7 +17,7 @@ JPA,OAuth 공부하는 프로젝트
 
 #### 구현 중
 - security - OAuth [로그](./oauth정리.md)
-- JPA - Todo/User CRUD
+- JPA - Todo/User CRUD [로그](./)
 - excel - 대용량 parsing
 - feign - restTemplate 간편 api호출 [로그](./feign적용.md)
 
