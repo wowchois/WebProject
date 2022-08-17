@@ -42,21 +42,12 @@ Secured 활성화 (메서드에 어노테이션으로 시큐리티 활성화 시
 (보통 @secured 많이 사용)
 
 
-
+@EnableAuthorizationServer 에서 localhost/oauth/token API로 로그인 정보 호출 시, accesstoken을 발급받고,   
+accesstoken으로 소셜로그인 imple에서 인증 후, userDetailService 에서 user정보를 가져온다.   
 
 
 --------------------
 
-
-
-
-
-## Excel 대용량 parsing
-- ExcelController
-- ExcelService
-- util/ExcelSheetHandler  
-
-swagger : /excel/parse  
 
 
 
