@@ -7,7 +7,7 @@
 
 
 ### Gradle 세팅
-```
+```xml
 
 dependencyManagement {
     imports {
@@ -33,7 +33,7 @@ https://github.com/spring-cloud/spring-cloud-release/wiki/Spring-Cloud-2020.0-Re
 
 ### root application java
 
-```
+```java 
 @EnableFeignClients //root에 feign 사용 선언
 public class JpaprojectApplication {
 
@@ -44,7 +44,7 @@ public class JpaprojectApplication {
 
 ### feign flient
 : 호출할 url과 api를 정의하는 feignclient 파일을 생성.  
-```
+```java
 
 @FeignClient(name="testfeign", url="https://url.co.kr")
 public interface TestClient {
@@ -55,4 +55,10 @@ public interface TestClient {
 }
 
 ```
+
+
+#### Feign log level
+NONE < BASIC < HEADERS < FULL   
+FULL 경우 모든 Feign로그가 출력된다. (log4j 레벨이 debug일때만 출력)  
+
 
