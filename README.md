@@ -12,6 +12,7 @@ JPA,OAuth 공부하는 프로젝트
 - Gradle
 - Swagger 3.0
 - Spring Boot
+- Spring Security
 - MySQL
 - Mustache
 
