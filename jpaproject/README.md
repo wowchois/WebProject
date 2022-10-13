@@ -15,7 +15,7 @@ error message : Failed to execute SQL script statement #1 of URL
 (컬럼명은 ` 으로 사용해야한다.)   
 
 
-#### ERROR1
+#### ERROR2
 Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name  
 expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}   
 
