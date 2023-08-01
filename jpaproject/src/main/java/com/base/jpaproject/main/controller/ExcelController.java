@@ -30,4 +30,16 @@ public class ExcelController {
 
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping(value = "/excel/sheetparse", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> excelParsingTest(@RequestPart("file") MultipartFile file){
+        Map<String,Object> result = new HashMap<>();
+
+        log.info("file name : {}", file.getOriginalFilename());
+
+        excelService.readToListMap(file);
+
+        return ResponseEntity.ok(result);
+    }
+
 }

@@ -25,4 +25,10 @@ public class ExcelService {
 
     }
 
+    public void readToListMap(MultipartFile file){
+        ExcelHandlerService handlerService = new ExcelHandlerService();
+        handlerService.readExcel(file);
+    }
+
+
 }
