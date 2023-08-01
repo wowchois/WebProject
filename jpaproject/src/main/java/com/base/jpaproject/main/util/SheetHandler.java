@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -34,11 +35,13 @@ public class SheetHandler extends DefaultHandler {
     private StringBuilder contents = new StringBuilder();
     private ReadOnlySharedStringsTable readData;
 
-    private long rowNumber = 0;
+    private long rowNumber = 1;
     private int pagingRowNumber = 0;
+    private int currentCol = -1;
 
     private boolean isCellVal;
     private boolean isCellStr;
+    private String cellId;
 
     public void readExcel(File file){
         try{
@@ -106,13 +109,60 @@ public class SheetHandler extends DefaultHandler {
                 .collect(Collectors.toMap(i -> header.get(i), i -> dataList.get(i)));
     }
 
+    private void cell(){
+        String cellData = "";
+
+        if(isCellVal && isCellStr){
+            int idx = Integer.parseInt(contents.toString());
+            cellData = new XSSFRichTextString(
+                    readData.getItemAt(idx).getString()
+            ).toString();
+        }else if(isCellVal){
+            cellData = contents.toString();
+        }else{
+            return;
+        }
+
+        //empty cell 처리
+        int iCol = new CellReference(cellId).getCol();
+        int emptyCol = iCol-currentCol-1;
+
+        for(int i=0; i<emptyCol; i++){
+            row.add("");
+        }
+        currentCol = iCol;
+        isCellVal = false;
+
+        row.add(cellData);
+    }
+
+    private void endRow(){
+        if(rowNumber == 1){
+            header.addAll(new ArrayList<>(row));
+        }
+        else{
+            rows.add(new ArrayList<>(row));
+            pagingRowNumber++;
+        }
+
+        if(pagingRowNumber == READ_CNT) { //paging처리
+            processRow(); // insert 실행
+            pagingRowNumber = 0;
+            rows.clear();
+        }
+        row.clear();
+    }
+
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        contents = new StringBuilder();
+
         if(isRow(qName)){
             String strRowNum = attributes.getValue("r");
             rowNumber = Long.parseLong(strRowNum);
         }
         else if(isCell(qName)){
+            cellId = attributes.getValue("r");
             String cellType = attributes.getValue("t");
             isCellStr = cellType != null && "s".equals(cellType);
         }
@@ -123,39 +173,11 @@ public class SheetHandler extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-//        int iCol = new CellReference(cellReference).getCol();
-//        int emptyCol = iCol-currentCol-1;
-//
-//        for(int i=0; i<emptyCol; i++){
-//            row.add("");
-//        }
-//        currentCol = iCol;
-
-        if(isCellVal && isCellStr){
-            int idx = Integer.parseInt(contents.toString());
-            String strVal = new XSSFRichTextString(
-                    readData.getItemAt(idx).getString()
-            ).toString();
-
-            row.add(strVal);
-        }else{
-            row.add(contents.toString());
-        }
-        isCellVal = false;
-
         if(isRow(qName)){
-            if(rowNumber == 1){
-                header.addAll(row);
-            }else{
-                rows.add(row);
-                pagingRowNumber++;
-            }
-            if(pagingRowNumber == READ_CNT) {
-                processRow(); // insert 실행
-                pagingRowNumber = 0;
-                rows.clear();
-            }
-            row.clear();
+            this.endRow();
+            currentCol = -1;
+        }else if(isCell(qName)){
+            this.cell();
         }
     }
 
@@ -166,18 +188,19 @@ public class SheetHandler extends DefaultHandler {
 
     @Override
     public void endDocument() throws SAXException {
-        executeMapper(); //마지막 페이지 실행
+        processRow(); //마지막 페이지 실행
     }
 
     private void processRow(){
         try{
             executeMapper();
             Thread.sleep(100);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
-    
-    public void executeMapper(){ //각 서비스에서 override해서 사용
+
+    //각 서비스에서 override해서 사용
+    public void executeMapper() throws ExecutionException {
     }
 }
