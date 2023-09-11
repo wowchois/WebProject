@@ -18,6 +18,11 @@ swagger : /excel/parse
 1. cpu 과부하 : 현재 모든 cell,row 를 한번에 읽기 때문에 cpu가 급격히 증가.
 2. OOM 발생 가능성 : 모든 데이터를 한번에 저장해서 처리되서 발생 가능성이 있음.
 
+![image](https://github.com/wowchois/WebProject/assets/61316086/471d4049-f222-47cb-a27e-2d75f5bee308)
+> heap memory 분석 시, rows List에 한 번에 쌓아서 메모리에 올리기 때문에 OOM발생 원인.
+
+
+
 
 ### 개선점
 방법 1. 저장된 excel을 read하기 전에 여러 파일로 분리해서 저장 후 read   
